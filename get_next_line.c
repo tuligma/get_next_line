@@ -22,15 +22,15 @@ void	reset_list(t_list **list)
 
 	if (!list || !*list)
 		return ;
-	new_line = malloc(BUFFER_SIZE);
+	last_node = ft_lstlast(*list);
+	i = 0;
+	while (last_node->content[i] && last_node->content[i] != '\n')
+		++i;
+	new_line = malloc((BUFFER_SIZE - i) + 1);
 	clean_node = malloc(sizeof(t_list));
 	if (!new_line || !clean_node)
 		return ;
-	last_node = ft_lstlast(*list);
-	i = 0;
 	x = 0;
-	while (last_node->content[i] && last_node->content[i] != '\n')
-		++i;
 	while (last_node->content[i] && last_node->content[++i])
 		new_line[x++] = last_node->content[i];
 	new_line[x] = '\0';

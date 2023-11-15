@@ -40,12 +40,10 @@ void	reset_list(t_list **list)
 char	*finalize_str(t_list *list)
 {
 	char	*dest;
-	int		full_len;
 
 	if (!list)
 		return (NULL);
-	full_len = consolidation_len(list);
-	dest = malloc(full_len + 1);
+	dest = malloc(consolidation_len(list) + 1);
 	if (!dest)
 		return (NULL);
 	transfer_str(list, dest);

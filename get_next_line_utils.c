@@ -30,12 +30,10 @@ int	newline_tracker(t_list *list)
 	while (list)
 	{
 		i = 0;
-		while (list->content[i] && i < BUFFER_SIZE)
-		{
-			if (list->content[i] == '\n')
-				return (1);
+		while (list->content[i] && i < BUFFER_SIZE && list->content[i] != '\n')
 			i++;
-		}
+		if (list->content[i] == '\n')
+			return (1);
 		list = list->next;
 	}
 	return (0);
@@ -52,16 +50,11 @@ int	consolidation_len(t_list *list)
 	while (list)
 	{
 		i = 0;
-		while (list->content[i])
-		{
-			if (list->content[i] == '\n')
-			{
-				++x;
-				return (x);
-			}
+		while (list->content[i] && list->content[i] != '\n')
 			++i;
-			++x;
-		}
+		if (list->content[i] == '\n')
+			return (x += ++i);
+		x += i;
 		list = list->next;
 	}
 	return (x);
@@ -78,15 +71,13 @@ void	transfer_str(t_list *list, char *s)
 	while (list)
 	{
 		i = 0;
-		while (list->content[i])
-		{
-			if (list->content[i] == '\n')
-			{
-				s[x] = '\n';
-				s[++x] = '\0';
-				return ;
-			}
+		while (list->content[i] && list->content[i] != '\n')
 			s[x++] = list->content[i++];
+		if (list->content[i] == '\n')
+		{
+			s[x] = '\n';
+			s[++x] = '\0';
+			return ;
 		}
 		list = list->next;
 	}
