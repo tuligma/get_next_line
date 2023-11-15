@@ -39,20 +39,6 @@ void	reset_list(t_list **list)
 	ft_lstclear(list, clean_node, new_line);
 }
 
-char	*finalize_str(t_list **list)
-{
-	char	*dest;
-
-	if (!list || !*list)
-		return (NULL);
-	dest = malloc(consolidation_len(*list) + 1);
-	if (!dest)
-		return (NULL);
-	transfer_str(*list, dest);
-	reset_list(list);
-	return (dest);
-}
-
 void	ft_lstnewadd_back(t_list **list, char *s)
 {
 	t_list	*new_node;
@@ -70,43 +56,45 @@ void	ft_lstnewadd_back(t_list **list, char *s)
 		ft_lstlast(*list)->next = new_node;
 }
 
-int	fetching(t_list **list, int fd)
+void	fetching(t_list **list, int fd)
 {
 	char	*bucket;
 	int		state;
 
-	state = 0;
 	while (!newline_tracker(*list))
 	{
 		bucket = malloc(BUFFER_SIZE + 1);
 		if (!bucket)
-			return (state);
+			return ;
 		state = read(fd, bucket, BUFFER_SIZE);
 		if (state <= 0)
 		{
 			free(bucket);
-			return (state);
+			if (state == -1)
+				ft_lstclear(list, NULL, NULL);
+			return ;
 		}
 		bucket[state] = '\0';
 		ft_lstnewadd_back(list, bucket);
 	}
-	return (state);
 }
 
 char	*get_next_line(int fd)
 {
 	static t_list	*list;
 	char			*str;
-	int				state;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || BUFFER_SIZE > INT_MAX)
 		return (NULL);
-	state = fetching(&list, fd);
-	if (state == -1)
-	{
-		ft_lstclear(&list, NULL, NULL);
+	fetching(&list, fd);
+	if (!list)
 		return (NULL);
-	}
-	str = finalize_str(&list);
+	str = malloc(consolidation_len(list) + 1);
+	if (!str)
+		return (NULL);
+	str = transfer_str(list, str);
+	if (!str)
+		return (NULL);
+	reset_list(&list);
 	return (str);
 }

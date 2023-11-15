@@ -20,34 +20,21 @@ void	reset_list(t_list **list)
 	int		i;
 	int		x;
 
-	new_line = malloc(BUFFER_SIZE);
+	last_node = ft_lstlast(*list);
+	i = 0;
+	while (last_node->content[i] && last_node->content[i] != '\n')
+		++i;
+	new_line = malloc((BUFFER_SIZE - i) + 1);
 	clean_node = malloc(sizeof(t_list));
 	if (!new_line || !clean_node)
 		return ;
-	last_node = ft_lstlast(*list);
-	i = 0;
 	x = 0;
-	while (last_node->content[i] && last_node->content[i] != '\n')
-		++i;
 	while (last_node->content[i] && last_node->content[++i])
 		new_line[x++] = last_node->content[i];
 	new_line[x] = '\0';
 	clean_node->content = new_line;
 	clean_node->next = NULL;
 	ft_lstclear(list, clean_node, new_line);
-}
-
-char	*finalize_str(t_list *list)
-{
-	char	*dest;
-
-	if (!list)
-		return (NULL);
-	dest = malloc(consolidation_len(list) + 1);
-	if (!dest)
-		return (NULL);
-	transfer_str(list, dest);
-	return (dest);
 }
 
 void	ft_lstnewadd_back(t_list **list, char *s, int fd)
@@ -98,7 +85,12 @@ char	*get_next_line(int fd)
 	fetching(list, fd);
 	if (!list[fd])
 		return (NULL);
-	str = finalize_str(list[fd]);
+	str = malloc(consolidation_len(list[fd]) + 1);
+	if (!str)
+		return (NULL);
+	str = transfer_str(list[fd], str);
+	if (!str)
+		return (NULL);
 	reset_list(&list[fd]);
 	return (str);
 }

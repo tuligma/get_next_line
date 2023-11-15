@@ -60,13 +60,13 @@ int	consolidation_len(t_list *list)
 	return (x);
 }
 
-void	transfer_str(t_list *list, char *s)
+char	*transfer_str(t_list *list, char *s)
 {
 	int	i;
 	int	x;
 
 	if (!list)
-		return ;
+		return (NULL);
 	x = 0;
 	while (list)
 	{
@@ -77,11 +77,12 @@ void	transfer_str(t_list *list, char *s)
 		{
 			s[x] = '\n';
 			s[++x] = '\0';
-			return ;
+			return (s);
 		}
 		list = list->next;
 	}
 	s[x] = '\0';
+	return (s);
 }
 
 void	ft_lstclear(t_list **list, t_list *clean_node, char *s)

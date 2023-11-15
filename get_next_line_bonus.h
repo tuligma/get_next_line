@@ -36,6 +36,6 @@ void	reset_list(t_list **list);
 t_list	*ft_lstlast(t_list *list);
 int		newline_tracker(t_list *list);
 int		consolidation_len(t_list *list);
-void	transfer_str(t_list *list, char *s);
+char	*transfer_str(t_list *list, char *s);
 void	ft_lstclear(t_list **list, t_list *clean_node, char *s);
 #endif
