@@ -6,7 +6,7 @@
 /*   By: npentini <npentini@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 00:50:11 by npentini          #+#    #+#             */
-/*   Updated: 2024/05/22 08:44:05 by npentini         ###   ########.fr       */
+/*   Updated: 2024/05/23 02:38:25 by npentini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,11 @@ int	newline_tracker(char *str)
 void	*free_me(char *buffer, char *str)
 {
 	if (buffer != NULL)
-	{
 		free(buffer);
-		buffer = NULL;
-	}
 	if (str != NULL)
-	{
 		free(str);
-		str = NULL;
-	}
+	buffer = NULL;
+	str = NULL;
 	return (NULL);
 }
 

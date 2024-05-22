@@ -6,13 +6,13 @@
 /*   By: npentini <npentini@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:16:44 by npentini          #+#    #+#             */
-/*   Updated: 2024/05/22 22:36:14 by npentini         ###   ########.fr       */
+/*   Updated: 2024/05/23 03:41:09 by npentini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_calloc(int size)
+static char	*ft_calloc(int size)
 {
 	char	*dest;
 	int		x;
@@ -26,8 +26,7 @@ char	*ft_calloc(int size)
 	return (dest);
 }
 
-
-char	*ft_strjoin(char *s1, char *s2)
+static char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*dest;
 	int		s1_size;
@@ -58,14 +57,12 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (dest);
 }
 
-char	*ft_strdup(char *buffer, int size)
+static char	*ft_strdup(char *buffer, int size)
 {
 	char	*dest;
 	int		x;
 
-	if (buffer == NULL)
-		return (NULL);
-	if (size == 0)
+	if (buffer == NULL || size == 0)
 		return (free_me(buffer, NULL));
 	dest = (char *)malloc(sizeof(char) * (size + 1));
 	if (dest == NULL)
@@ -77,30 +74,7 @@ char	*ft_strdup(char *buffer, int size)
 	return (dest);
 }
 
-char	*ft_realloc(char *str, int size, int index)
-{
-	char	*new_dest;
-	int		old_size;
-	int		x;
-
-	if (str == NULL && size == 0)
-		return (NULL);
-	old_size = 0;
-	if (str != NULL)
-		old_size = ft_strlen(str + index);
-	if (old_size + size == 0)
-		return (free_me(NULL, str));
-	new_dest = ft_calloc(old_size + size);
-	if (new_dest == NULL)
-		return (free_me(NULL, str));
-	x = -1;
-	while (++x < old_size)
-		new_dest[x] = str[index + x];
-	free(str);
-	return (new_dest);
-}
-
-char	*read_file(int fd, char *buffer, int *buff_size)
+static char	*read_file(int fd, char *buffer, int *buff_size)
 {
 	char	*dest;
 
@@ -108,7 +82,7 @@ char	*read_file(int fd, char *buffer, int *buff_size)
 	{
 		dest = ft_calloc(BUFFER_SIZE);
 		if (dest == NULL)
-				return (free_me(buffer, NULL));
+			return (free_me(buffer, NULL));
 		*buff_size = read(fd, dest, BUFFER_SIZE);
 		if (*buff_size == -1)
 			return (free_me(NULL, dest));
@@ -133,14 +107,18 @@ char	*get_next_line(int fd)
 	char		*str;
 	int			buff_size;
 	char		*line;
-	
+
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
-		return (free_me(buffer, line));
+		return (free_me(buffer, NULL));
 	buff_size = 1;
+	str = NULL;
 	str = read_file(fd, buffer, &buff_size);
-	if (str == NULL || (str == NULL && buff_size == 0))
-		return (free_me(buffer, str));
+	if (buff_size == -1 || str == NULL || (str == NULL && buff_size == 0))
+	{
+		buffer = free_me(buffer, NULL);
+		return (NULL);
+	}
 	buff_size = newline_finder(str);
 	if (newline_tracker(str) == 1)
 		buff_size++;
@@ -149,8 +127,7 @@ char	*get_next_line(int fd)
 	else
 		buffer = NULL;
 	line = ft_strdup(str, buff_size);
-	if (line == NULL)
-		return (NULL);
-	str = free_me(str, NULL);
+	if (str != NULL)
+		free(str);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: npentini <npentini@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:17:02 by npentini          #+#    #+#             */
-/*   Updated: 2024/05/22 08:44:49 by npentini         ###   ########.fr       */
+/*   Updated: 2024/05/23 03:12:19 by npentini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <unistd.h>
 # include <limits.h>
 # include <stdio.h>
+
+// extern int next_read_error;
 
 char	*get_next_line(int fd);
 int		ft_strlen(char *str);

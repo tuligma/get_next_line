@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/get_next_line",
-			"args": ["${workspaceFolder}/read_error.txt"],
+			"args": ["${workspaceFolder}/file"],
 			"stopAtEntry": false,
 			"cwd": "${fileDirname}",
 			"environment": [],
