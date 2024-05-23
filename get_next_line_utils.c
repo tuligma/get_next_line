@@ -6,7 +6,7 @@
 /*   By: npentini <npentini@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 00:50:11 by npentini          #+#    #+#             */
-/*   Updated: 2024/05/23 02:38:25 by npentini         ###   ########.fr       */
+/*   Updated: 2024/05/24 01:00:55 by npentini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,21 @@ int	newline_finder(char *str)
 	return (x);
 }
 
-int	newline_counter(char *str)
+char	*ft_strcpy(char *s1, char *s2, int s1_size, int s2_size)
 {
-	int	x;
+	char	*dest;
+	int		x;
+	int		j;
 
-	x = 0;
-	while (str[x] != '\0' && str[x] == '\n')
-		x++;
-	return (x);
+	dest = (char *)malloc(s1_size + s2_size + 1);
+	if (dest == NULL)
+		return (NULL);
+	x = -1;
+	while (++x < s1_size)
+		dest[x] = s1[x];
+	j = -1;
+	while (++j < s2_size)
+		dest[x++] = s2[j];
+	dest[x] = '\0';
+	return (dest);
 }

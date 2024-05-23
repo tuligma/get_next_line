@@ -6,7 +6,7 @@
 /*   By: npentini <npentini@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:17:02 by npentini          #+#    #+#             */
-/*   Updated: 2024/05/23 03:12:19 by npentini         ###   ########.fr       */
+/*   Updated: 2024/05/24 01:01:52 by npentini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ int		ft_strlen(char *str);
 int		newline_tracker(char *str);
 void	*free_me(char *buffer, char *str);
 int		newline_finder(char *str);
-int		newline_counter(char *str);
+char	*ft_strcpy(char *s1, char *s2, int s1_size, int s2_size);
 
 #endif

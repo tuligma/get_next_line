@@ -6,7 +6,7 @@
 /*   By: npentini <npentini@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:16:44 by npentini          #+#    #+#             */
-/*   Updated: 2024/05/24 00:33:37 by npentini         ###   ########.fr       */
+/*   Updated: 2024/05/24 01:05:24 by npentini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static char	*ft_strjoin(char *s1, char *s2)
 	char	*dest;
 	int		s1_size;
 	int		s2_size;
-	int		x;
-	int		j;
 
 	if (s2 == NULL)
 		return (NULL);
@@ -42,16 +40,9 @@ static char	*ft_strjoin(char *s1, char *s2)
 	s2_size = ft_strlen(s2);
 	if (s1_size + s2_size == 0)
 		return (free_me(s1, s2));
-	dest = (char *)malloc(s1_size + s2_size + 1);
+	dest = ft_strcpy(s1, s2, s1_size, s2_size);
 	if (dest == NULL)
 		return (free_me(s1, s2));
-	x = -1;
-	while (++x < s1_size)
-		dest[x] = s1[x];
-	j = -1;
-	while (++j < s2_size)
-		dest[x++] = s2[j];
-	dest[x] = '\0';
 	if (s1 != NULL)
 		free(s1);
 	free(s2);
