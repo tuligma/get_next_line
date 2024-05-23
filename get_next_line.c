@@ -6,7 +6,7 @@
 /*   By: npentini <npentini@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 17:16:44 by npentini          #+#    #+#             */
-/*   Updated: 2024/05/23 03:41:09 by npentini         ###   ########.fr       */
+/*   Updated: 2024/05/24 00:33:37 by npentini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,11 @@ static char	*ft_strjoin(char *s1, char *s2)
 	dest[x] = '\0';
 	if (s1 != NULL)
 		free(s1);
+	free(s2);
 	return (dest);
 }
 
-static char	*ft_strdup(char *buffer, int size)
+static char	*ft_strdup(char *buffer, int size, int state)
 {
 	char	*dest;
 	int		x;
@@ -71,6 +72,8 @@ static char	*ft_strdup(char *buffer, int size)
 	while (++x < size)
 		dest[x] = buffer[x];
 	dest[x] = '\0';
+	if (state == 1)
+		free(buffer);
 	return (dest);
 }
 
@@ -82,7 +85,7 @@ static char	*read_file(int fd, char *buffer, int *buff_size)
 	{
 		dest = ft_calloc(BUFFER_SIZE);
 		if (dest == NULL)
-			return (free_me(buffer, NULL));
+			return (NULL);
 		*buff_size = read(fd, dest, BUFFER_SIZE);
 		if (*buff_size == -1)
 			return (free_me(NULL, dest));
@@ -96,7 +99,6 @@ static char	*read_file(int fd, char *buffer, int *buff_size)
 		buffer = ft_strjoin(buffer, dest);
 		if (buffer == NULL)
 			return (NULL);
-		free(dest);
 	}
 	return (buffer);
 }
@@ -123,11 +125,9 @@ char	*get_next_line(int fd)
 	if (newline_tracker(str) == 1)
 		buff_size++;
 	if (ft_strlen(str + buff_size) > 0)
-		buffer = ft_strdup(str + buff_size, ft_strlen(str + buff_size));
+		buffer = ft_strdup(str + buff_size, ft_strlen(str + buff_size), 0);
 	else
 		buffer = NULL;
-	line = ft_strdup(str, buff_size);
-	if (str != NULL)
-		free(str);
+	line = ft_strdup(str, buff_size, 1);
 	return (line);
 }
