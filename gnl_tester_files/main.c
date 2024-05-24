@@ -1,23 +1,47 @@
 #include "get_next_line.h"
 #include <fcntl.h>
 
+//mandatory main
+// int main(int argc, char *argv[])
+// {
+// 	int	fd;
+// 	char *file;
+// 	char *line;
+
+// 	(void)argc;
+// 	file = argv[1];
+// 	fd = open(file, O_RDONLY);
+// 	line = get_next_line(fd);
+// 	while (line != NULL)
+// 	{
+// 		printf("%s", line);
+// 		free(line);
+// 		line = get_next_line(fd);
+// 	}
+// 	close(fd);
+// 	return (0);
+// }
+
+//bonus main
 int main(int argc, char *argv[])
 {
 	int	fd;
-	char *file;
 	char *line;
 
-	(void)argc;
-	file = argv[1];
-	fd = open(file, O_RDONLY);
-	line = get_next_line(fd);
-	while (line != NULL)
+	for (int i = 1; i < argc; i++)
 	{
-		printf("%s", line);
-		free(line);
+		fd = open(argv[i], O_RDONLY);
+		if (i == 4)
+			fd = -1;
 		line = get_next_line(fd);
+		while (line != NULL)
+		{
+			printf("%s", line);
+			free(line);
+			line = get_next_line(fd);
+		}
+		close(fd);
 	}
-	close(fd);
 	return (0);
 }
 

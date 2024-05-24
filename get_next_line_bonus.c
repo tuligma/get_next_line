@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: npentini <npentini@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 17:16:44 by npentini          #+#    #+#             */
-/*   Updated: 2024/05/25 03:10:49 by npentini         ###   ########.fr       */
+/*   Created: 2024/05/25 02:51:02 by npentini          #+#    #+#             */
+/*   Updated: 2024/05/25 02:51:05 by npentini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_calloc(int size)
 {
@@ -96,29 +96,29 @@ static char	*read_file(int fd, char *buffer, int *buff_size)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[4096];
 	char		*str;
 	int			buff_size;
 	char		*line;
 
 	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
-		return (free_me(buffer, NULL));
+	if (fd < 0 || fd > 4096 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= INT_MAX)
+		return (free_me(buffer[fd], NULL));
 	buff_size = 1;
 	str = NULL;
-	str = read_file(fd, buffer, &buff_size);
+	str = read_file(fd, buffer[fd], &buff_size);
 	if (buff_size == -1 || str == NULL || (str == NULL && buff_size == 0))
 	{
-		buffer = free_me(buffer, NULL);
+		buffer[fd] = free_me(buffer[fd], NULL);
 		return (NULL);
 	}
 	buff_size = newline_finder(str);
 	if (newline_tracker(str) == 1)
 		buff_size++;
 	if (ft_strlen(str + buff_size) > 0)
-		buffer = ft_strdup(str + buff_size, ft_strlen(str + buff_size), 0);
+		buffer[fd] = ft_strdup(str + buff_size, ft_strlen(str + buff_size), 0);
 	else
-		buffer = NULL;
+		buffer[fd] = NULL;
 	line = ft_strdup(str, buff_size, 1);
 	return (line);
 }
