@@ -6,11 +6,11 @@
 /*   By: npentini <npentini@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 02:50:49 by npentini          #+#    #+#             */
-/*   Updated: 2024/05/25 02:50:51 by npentini         ###   ########.fr       */
+/*   Updated: 2024/06/19 23:04:07 by npentini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_strlen(char *str)
 {
